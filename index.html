@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sowji's MUKUNDA | Authentic Pure Silk & Designer Sarees</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Sowji's MUKUNDA - Handcrafted Pure Mysore Crape, Manipuri Kota, Pure Kadi Georgette, and Tissue Crape Sarees with Gap Zari Borders. Direct Weaver & Dealer Margins.">
+  <meta name="keywords" content="Sowji Mukunda, Brand Mukunda, Pure Mysore Crape Sarees, Manipuri Kota Sarees, Kadi Georgette Sarees, Tissue Crape Sarees, Handloom Sarees WhatsApp">
+  <meta name="author" content="Sowji's MUKUNDA">
+  
+  <!-- Favicon / Brand Emblem -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231E1B18'/><polygon points='50,15 62,38 85,38 66,54 73,78 50,63 27,78 34,54 15,38 38,38' fill='%23C5A059'/></svg>">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. TOP ANNOUNCEMENT MARQUEE BAR
+       ========================================================================== -->
+  <div class="announcement-bar" role="region" aria-label="Special Offers">
+    <div class="marquee-track">
+      <div class="marquee-item">
+        <span>Sowji's MUKUNDA • Direct Weaver &amp; Reseller Margins</span>
+        <span class="marquee-separator">✦</span>
+        <span>WhatsApp Order &amp; Video Preview: <strong class="highlight">+91 63097 94155</strong></span>
+        <span class="marquee-separator">✦</span>
+        <span>Use Code <strong class="highlight">MUKUNDA10</strong> for Extra 10% Off</span>
+        <span class="marquee-separator">✦</span>
+        <span>Free Express Delivery Across India on Orders Above ₹2,999</span>
+        <span class="marquee-separator">✦</span>
+        <span>Ready to Dispatch • Silk Mark Certified Pure</span>
+        <span class="marquee-separator">✦</span>
+      </div>
+      <!-- Duplicate for infinite seamless marquee loop -->
+      <div class="marquee-item" aria-hidden="true">
+        <span>Sowji's MUKUNDA • Direct Weaver &amp; Reseller Margins</span>
+        <span class="marquee-separator">✦</span>
+        <span>WhatsApp Order &amp; Video Preview: <strong class="highlight">+91 63097 94155</strong></span>
+        <span class="marquee-separator">✦</span>
+        <span>Use Code <strong class="highlight">MUKUNDA10</strong> for Extra 10% Off</span>
+        <span class="marquee-separator">✦</span>
+        <span>Free Express Delivery Across India on Orders Above ₹2,999</span>
+        <span class="marquee-separator">✦</span>
+        <span>Ready to Dispatch • Silk Mark Certified Pure</span>
+        <span class="marquee-separator">✦</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. STICKY GLASSMORHIC HEADER & DUAL PRICING MODE TOGGLE
+       ========================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+      
+      <!-- Mobile Hamburger Trigger -->
+      <button class="mobile-menu-trigger" id="mobileMenuTrigger" aria-label="Open Navigation Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <!-- Desktop Left Navigation -->
+      <nav class="header-nav" aria-label="Primary Navigation">
+        <a href="#featured-products" class="nav-link badge-link">
+          New Arrivals
+          <span class="nav-pill-badge">New</span>
+        </a>
+        <a href="#featured-products" class="nav-link">Mysore Crape</a>
+        <a href="#featured-products" class="nav-link">Manipuri Kota</a>
+        <a href="#featured-products" class="nav-link">Kadi Georgette</a>
+        <a href="promo-video.html" class="nav-link" style="color: #8C2D38; font-weight: 700;">🎬 Brand Film</a>
+        <a href="presentation.html" class="nav-link" style="color: #C5A059; font-weight: 700;">📊 Pitch Deck</a>
+      </nav>
+
+      <!-- Center Brand Logo -->
+      <a href="#" class="brand-container" aria-label="Sowji's MUKUNDA Homepage">
+        <svg class="brand-emblem" viewBox="0 0 100 100" fill="currentColor">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" stroke-width="3"/>
+          <path d="M50 20 L58 38 L78 38 L62 50 L68 70 L50 58 L32 70 L38 50 L22 38 L42 38 Z" fill="currentColor"/>
+          <circle cx="50" cy="50" r="6" fill="#FAF7F2"/>
+        </svg>
+        <span class="brand-logo-text">SOWJI'S MUKUNDA</span>
+        <span class="brand-subtext">Brand Mukunda • Heritage Silks</span>
+      </a>
+
+      <!-- Right Header Actions -->
+      <div class="header-actions">
+        
+        <!-- Retail vs Dealer Pricing Mode Toggle -->
+        <div class="pricing-mode-toggle" id="pricingModeToggle" title="Click to switch between Customer Retail and Dealer Wholesale pricing">
+          <span class="toggle-opt active" id="retailOpt">Retail</span>
+          <span class="toggle-opt" id="dealerOpt">Dealer Margin</span>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-box-wrapper" id="searchTrigger">
+          <span class="search-icon-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" class="search-input" placeholder="Search Mysore, Kota, Georgette..." readonly>
+        </div>
+
+        <!-- Wishlist Icon Trigger -->
+        <button class="action-icon-btn" id="wishlistTrigger" aria-label="View Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="icon-badge" id="wishlistCountBadge" style="display: none;">0</span>
+        </button>
+
+        <!-- Shopping Cart Trigger -->
+        <button class="action-icon-btn" id="cartTrigger" aria-label="Open Shopping Bag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="icon-badge" id="cartCountBadge" style="display: none;">0</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       3. PROMINENT EDITORIAL HERO SHOWCASE SLIDER
+       ========================================================================== -->
+  <section class="hero-section" id="heroSection" aria-label="Featured Saree Showcase">
+    <div class="hero-slider-track" id="heroSliderTrack">
+      <!-- Populated via initHeroCarousel() in app.js using authentic local images -->
+    </div>
+
+    <!-- Hero Slider Controls Bar -->
+    <div class="container hero-controls-bar">
+      <button class="hero-nav-arrow" id="heroPrevBtn" aria-label="Previous Slide">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+
+      <div class="hero-dots-wrap" id="heroDots"></div>
+
+      <button class="hero-nav-arrow" id="heroNextBtn" aria-label="Next Slide">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       4. TRUST & HERITAGE STRIP
+       ========================================================================== -->
+  <section class="trust-strip" aria-label="Our Guarantees">
+    <div class="container">
+      <div class="trust-grid">
+        
+        <div class="trust-card reveal-fade delay-1">
+          <div class="trust-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div class="trust-text">
+            <h4>Direct Dealer Margins</h4>
+            <p>Save ₹200 to ₹300 per saree for wholesale/resellers</p>
+          </div>
+        </div>
+
+        <div class="trust-card reveal-fade delay-2">
+          <div class="trust-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="trust-text">
+            <h4>Video Verified Quality</h4>
+            <p>HD video check on WhatsApp before dispatch</p>
+          </div>
+        </div>
+
+        <div class="trust-card reveal-fade delay-3">
+          <div class="trust-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div class="trust-text">
+            <h4>Fast All-India Dispatch</h4>
+            <p>Same-day tracking via DTDC &amp; Express Postal</p>
+          </div>
+        </div>
+
+        <div class="trust-card reveal-fade delay-4">
+          <div class="trust-icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+          </div>
+          <div class="trust-text">
+            <h4>100% Handloom Authenticity</h4>
+            <p>Pure Silk Mark &amp; Weaver Certified</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SPINNING TRADITIONAL MANDALA MOTIF (Section Divider)
+       ========================================================================== -->
+  <div class="motif-divider" aria-hidden="true">
+    <div class="motif-divider-line"></div>
+    <div class="rotating-mandala-container">
+      <svg class="mandala-svg" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" stroke="#C5A059" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <circle cx="50" cy="50" r="38" stroke="#DFCA95" stroke-width="1"/>
+        <circle cx="50" cy="50" r="28" stroke="#C5A059" stroke-width="1.2"/>
+        <path d="M50 12 C55 26 55 36 50 50 C45 36 45 26 50 12 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M50 88 C55 74 55 64 50 50 C45 64 45 74 50 88 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M12 50 C26 55 36 55 50 50 C36 45 26 45 12 50 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M88 50 C74 55 64 55 50 50 C64 45 74 45 88 50 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M23 23 C37 32 44 40 50 50 C40 44 32 37 23 23 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M77 77 C63 68 56 60 50 50 C60 56 68 63 77 77 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M77 23 C68 37 60 44 50 50 C56 40 63 32 77 23 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M23 77 C32 63 40 56 50 50 C44 60 37 68 23 77 Z" fill="#DFCA95" opacity="0.9"/>
+        <circle cx="50" cy="50" r="7" fill="#8C2D38"/>
+        <circle cx="50" cy="50" r="3" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="motif-divider-line right"></div>
+  </div>
+
+  <!-- ==========================================================================
+       5. SHOP BY OCCASION (BENTO GRID + DUAL CARDS)
+       ========================================================================== -->
+  <section class="occasion-section" id="occasion-section">
+    <div class="container">
+      
+      <div class="section-header reveal-fade">
+        <span class="section-subtitle">Mukunda Wardrobes</span>
+        <h2 class="section-title">Shop by Sacred Occasion</h2>
+        <p class="section-desc">From ceremonial bridal entry Kanchi Pattu to soft Manipuri Kota and Mysore Crape for morning pujas, explore handloom masterpieces crafted for celebrations.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="tabs-wrapper reveal-fade">
+        <button class="tab-pill active" data-category="sarees">Sarees</button>
+        <button class="tab-pill" data-category="lehengas">Bridal Silks</button>
+        <button class="tab-pill" data-category="halfSarees">Half Sarees</button>
+        <button class="tab-pill" data-category="festiveSuits">Festive Weaves</button>
+      </div>
+
+      <!-- 4-Card Bento Visual Grid -->
+      <div class="bento-grid" id="bentoGrid">
+        <!-- Rendered via renderBentoGrid() in app.js -->
+      </div>
+
+      <!-- Two Wide Dual Feature Cards -->
+      <div class="dual-feature-grid" id="dualCardsGrid">
+        <!-- Rendered via renderDualFeatureCards() in app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SPINNING TRADITIONAL MANDALA MOTIF (Section Divider 2)
+       ========================================================================== -->
+  <div class="motif-divider" aria-hidden="true">
+    <div class="motif-divider-line"></div>
+    <div class="rotating-mandala-container">
+      <svg class="mandala-svg" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" stroke="#C5A059" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <circle cx="50" cy="50" r="38" stroke="#DFCA95" stroke-width="1"/>
+        <circle cx="50" cy="50" r="28" stroke="#C5A059" stroke-width="1.2"/>
+        <path d="M50 12 C55 26 55 36 50 50 C45 36 45 26 50 12 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M50 88 C55 74 55 64 50 50 C45 64 45 74 50 88 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M12 50 C26 55 36 55 50 50 C36 45 26 45 12 50 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M88 50 C74 55 64 55 50 50 C64 45 74 45 88 50 Z" fill="#C5A059" opacity="0.85"/>
+        <path d="M23 23 C37 32 44 40 50 50 C40 44 32 37 23 23 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M77 77 C63 68 56 60 50 50 C60 56 68 63 77 77 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M77 23 C68 37 60 44 50 50 C56 40 63 32 77 23 Z" fill="#DFCA95" opacity="0.9"/>
+        <path d="M23 77 C32 63 40 56 50 50 C44 60 37 68 23 77 Z" fill="#DFCA95" opacity="0.9"/>
+        <circle cx="50" cy="50" r="7" fill="#8C2D38"/>
+        <circle cx="50" cy="50" r="3" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="motif-divider-line right"></div>
+  </div>
+
+  <!-- ==========================================================================
+       6. "MOST LOVED" & "TRENDING NOW" PRODUCT GRID (MUKUNDA COLLECTIONS)
+       ========================================================================== -->
+  <section class="products-section" id="featured-products">
+    <div class="container">
+      
+      <div class="section-header reveal-fade">
+        <span class="section-subtitle">Authentic Catalog</span>
+        <h2 class="section-title">Most Loved &amp; Ready to Dispatch</h2>
+        <p class="section-desc">Handcrafted sarees with exact pricing and dealer margin discounts direct from Sowji's Mukunda collection.</p>
+      </div>
+
+      <!-- Filter Controls Bar Matching Real WhatsApp Weaves -->
+      <div class="products-filter-bar reveal-fade">
+        <div class="filter-categories">
+          <button class="filter-btn active" data-filter="all">All Weaves</button>
+          <button class="filter-btn" data-filter="mysore_crape">Pure Mysore Crape</button>
+          <button class="filter-btn" data-filter="manipuri_kota">Pure Manipuri Kota</button>
+          <button class="filter-btn" data-filter="kadi_georgette">Pure Kadi Georgette</button>
+          <button class="filter-btn" data-filter="tissue_crape">Tissue Crape Gap</button>
+          <button class="filter-btn" data-filter="mushru">Mushru Satin</button>
+        </div>
+        
+        <div class="products-slider-controls">
+          <button class="slider-nav-btn" onclick="document.getElementById('productsGrid').scrollBy({left: -320, behavior: 'smooth'})" aria-label="Previous Products">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="slider-nav-btn" onclick="document.getElementById('productsGrid').scrollBy({left: 320, behavior: 'smooth'})" aria-label="Next Products">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Rendered via renderProducts() in app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       7. SHOP BY FABRIC / WEAVE (CIRCULAR/ARCH STORY CARDS)
+       ========================================================================== -->
+  <section class="fabrics-section" id="fabrics-section">
+    <div class="container">
+      
+      <div class="section-header reveal-fade">
+        <span class="section-subtitle">Handloom Masteries</span>
+        <h2 class="section-title">Shop by Authentic Weave</h2>
+        <p class="section-desc">Each signature weave reflects the regional heritage of South Indian looms, gap zari borders, and soft fluid drapes.</p>
+      </div>
+
+      <!-- Arch Story Cards -->
+      <div class="fabrics-grid" id="fabricsGrid">
+        <!-- Rendered via renderFabrics() in app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       8. CLIENT DIARIES & SOCIAL PROOF
+       ========================================================================== -->
+  <section class="reviews-section" id="client-diaries">
+    <div class="container">
+      
+      <div class="section-header reveal-fade">
+        <span class="section-subtitle">Patron Diaries</span>
+        <h2 class="section-title">Cherished by 10,000+ Patrons &amp; Resellers</h2>
+        <p class="section-desc">Real buyers and resellers share their experiences with Sowji's Mukunda sarees and prompt WhatsApp dispatch.</p>
+      </div>
+
+      <div class="reviews-grid" id="reviewsGrid">
+        <!-- Rendered via renderReviews() in app.js -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       9. LUXURY FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      
+      <div class="footer-top-grid">
+        
+        <!-- Brand & Heritage -->
+        <div class="footer-brand">
+          <h3>SOWJI'S MUKUNDA</h3>
+          <p>Handcrafting the soul of Indian handloom heritage and designer ethnic wear. Providing direct customer pricing and generous reseller margins with 100% video-verified dispatch.</p>
+          
+          <div class="footer-contact-info">
+            <div>📞 <strong>Direct Orders / WhatsApp:</strong> <a href="https://wa.me/916309794155" target="_blank">+91 63097 94155</a></div>
+            <div>📱 <strong>Secondary Line:</strong> <a href="tel:+917075806116">+91 70758 06116</a></div>
+            <div>📍 <strong>Artisan Dispatch Hub:</strong> Handloom Weaving Guilds, South India</div>
+          </div>
+
+          <div class="footer-social-links">
+            <a href="https://wa.me/916309794155" target="_blank" class="social-link-btn" aria-label="WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </a>
+            <a href="#" class="social-link-btn" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="social-link-btn" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+
+          <!-- WhatsApp Personal Shopping Concierge Banner -->
+          <div class="concierge-card" onclick="window.open('https://wa.me/916309794155?text=Namaste%20Sowji%20Garu!%20Please%20share%20saree%20video%20call%20details', '_blank');" style="cursor: pointer;">
+            <div class="concierge-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
+            </div>
+            <div class="concierge-text">
+              <h6>Direct WhatsApp Ordering &amp; Video Call</h6>
+              <p>Chat directly with Sowji garu on +91 63097 94155 for custom draping videos.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Collections</h4>
+          <ul class="footer-links-list">
+            <li><a href="#featured-products">Pure Mysore Crape Sarees</a></li>
+            <li><a href="#featured-products">Maitrika Manipuri Kota</a></li>
+            <li><a href="#featured-products">Pure Kadi Georgette</a></li>
+            <li><a href="#featured-products">Tissue Crape Gap Borders</a></li>
+            <li><a href="#featured-products">Pure Mushru Satin Sarees</a></li>
+            <li><a href="#featured-products">Kanchi Pattu Madrasi Checks</a></li>
+          </ul>
+        </div>
+
+        <!-- Customer Care -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Reseller &amp; Orders</h4>
+          <ul class="footer-links-list">
+            <li><a href="#">Wholesale &amp; Dealer Inquiries</a></li>
+            <li><a href="#">Silk Mark Certification</a></li>
+            <li><a href="#">Blouse Tailoring Services</a></li>
+            <li><a href="#">Track Dispatch via DTDC</a></li>
+            <li><a href="#">Exchange &amp; Quality Check</a></li>
+            <li><a href="#">Care &amp; Storage Guide</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter Signup -->
+        <div class="footer-col">
+          <h4 class="footer-heading">Sowji's Gazette</h4>
+          <p style="font-size: 0.8125rem; color: #B5ADA3; margin-bottom: 1rem;">Subscribe to get early previews of new stock arrivals before broadcast on WhatsApp groups.</p>
+          
+          <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed to Sowji\'s Mukunda broadcasts!', '✨');">
+            <div class="newsletter-input-box">
+              <input type="email" class="newsletter-input" placeholder="Your royal email address" required>
+              <button type="submit" class="newsletter-submit-btn" aria-label="Subscribe">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </form>
+
+          <div style="font-size: 0.75rem; color: #8C847B; margin-top: 0.75rem;">
+            <span>🔒 Direct artisan contact. No middlemen.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>
+          <span>&copy; 2026 Sowji's MUKUNDA (Brand Mukunda). Handcrafted in India. All Rights Reserved.</span>
+        </div>
+        <div class="payment-badges">
+          <span class="payment-pill">GPay / PhonePe</span>
+          <span class="payment-pill">UPI</span>
+          <span class="payment-pill">Bank Transfer</span>
+          <span class="payment-pill">Cash on Delivery</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       10. FLOATING WHATSAPP BUTTON (DIRECT ORDER)
+       ========================================================================== -->
+  <a href="https://wa.me/916309794155?text=Namaste%20Sowji%20Garu!%20I%20am%20interested%20in%20Mukunda%20sarees" target="_blank" class="floating-whatsapp-btn" aria-label="Order on WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
+    <span>Order on WhatsApp</span>
+  </a>
+
+  <!-- ==========================================================================
+       11. SLIDE-OUT CART DRAWER & BACKDROP
+       ========================================================================== -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="drawer-header">
+      <h3>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span>Your Royal Bag</span>
+      </h3>
+      <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close Bag">&times;</button>
+    </div>
+
+    <!-- Free Shipping Progress Meter -->
+    <div class="shipping-meter-wrap">
+      <div class="shipping-status-text" id="shippingStatusText">
+        <span>Add ₹2,999 for <strong>Free Express Shipping</strong></span>
+      </div>
+      <div class="shipping-progress-bar">
+        <div class="shipping-progress-fill" id="shippingProgressFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scroll Area -->
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- Items dynamically populated via updateCartUI() -->
+    </div>
+
+    <!-- Cart Drawer Footer -->
+    <div class="drawer-footer">
+      <div class="promo-row">
+        <input type="text" class="promo-input" id="promoInput" placeholder="Promo code (e.g. MUKUNDA10)">
+        <button class="promo-apply-btn" id="promoApplyBtn">Apply</button>
+      </div>
+
+      <div class="cart-summary-line">
+        <span>Bag Subtotal</span>
+        <span id="cartSubtotal">₹0</span>
+      </div>
+
+      <div class="cart-summary-line" id="cartDiscountRow" style="display: none; color: #8C2D38;">
+        <span>Promo Savings</span>
+        <span id="cartDiscount">-₹0</span>
+      </div>
+
+      <div class="cart-summary-line">
+        <span>Insured Express Shipping</span>
+        <span class="text-rose"><strong>FREE</strong></span>
+      </div>
+
+      <div class="cart-summary-total">
+        <span>Estimated Total</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+
+      <button class="checkout-btn" onclick="showToast('Proceeding to Encrypted Heritage Checkout...', '🔒')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Proceed to Secure Checkout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       12. QUICK VIEW MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="quickViewModal" aria-hidden="true">
+    <div class="quickview-modal-content" id="quickViewModalContent">
+      <!-- Injected dynamically via openQuickView() in app.js -->
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       13. SEARCH OVERLAY
+       ========================================================================== -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay-inner">
+      <div class="search-overlay-input-wrap">
+        <input type="text" class="search-overlay-input" id="searchOverlayInput" placeholder="Search Manipuri Kota, Mysore Crape, Kadi Georgette...">
+        <button class="search-overlay-close" id="searchOverlayClose">&times;</button>
+      </div>
+      <div class="search-suggestions-container" id="searchSuggestions">
+        <span style="font-size: 0.8125rem; color: #5C544C; margin-right: 0.5rem;">Popular Searches:</span>
+        <span class="search-chip" onclick="document.getElementById('searchOverlayInput').value='Manipuri Kota'; document.getElementById('searchOverlayInput').dispatchEvent(new Event('input'));">Pure Manipuri Kota</span>
+        <span class="search-chip" onclick="document.getElementById('searchOverlayInput').value='Mysore Crape'; document.getElementById('searchOverlayInput').dispatchEvent(new Event('input'));">Pure Mysore Crape</span>
+        <span class="search-chip" onclick="document.getElementById('searchOverlayInput').value='Georgette'; document.getElementById('searchOverlayInput').dispatchEvent(new Event('input'));">Pure Kadi Georgette</span>
+        <span class="search-chip" onclick="document.getElementById('searchOverlayInput').value='Tissue Crape'; document.getElementById('searchOverlayInput').dispatchEvent(new Event('input'));">Tissue Crape Gap Borders</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       14. MOBILE NAVIGATION DRAWER
+       ========================================================================== -->
+  <aside class="cart-drawer" id="mobileDrawer" style="left: 0; right: auto; transform: translateX(-100%);">
+    <div class="drawer-header">
+      <span class="brand-logo-text" style="font-size: 1.5rem;">SOWJI'S MUKUNDA</span>
+      <button class="drawer-close-btn" id="mobileDrawerClose">&times;</button>
+    </div>
+    <div style="padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 1.5rem;">
+      <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">New Arrivals</a>
+      <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Pure Mysore Crape</a>
+      <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Pure Manipuri Kota</a>
+      <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Pure Kadi Georgette</a>
+      <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Tissue Crape Gap</a>
+      <a href="promo-video.html" class="nav-link" style="color: #8C2D38; font-weight: 700;">🎬 Watch Brand Film (Reel)</a>
+      <a href="presentation.html" class="nav-link" style="color: #C5A059; font-weight: 700;">📊 View Pitch Deck (Slides)</a>
+      <hr style="border: none; border-top: 1px solid var(--border-gold);">
+      <a href="https://wa.me/916309794155" target="_blank" style="display: flex; align-items: center; gap: 0.75rem; color: #25D366; font-weight: 700; cursor: pointer;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
+        <span>WhatsApp Order (+91 63097 94155)</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       15. TOAST NOTIFICATION CONTAINER
+       ========================================================================== -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Application Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
