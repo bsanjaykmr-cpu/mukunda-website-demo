@@ -6,7 +6,7 @@
   <title>Sowji's MUKUNDA | Authentic Pure Silk & Designer Sarees</title>
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Sowji's MUKUNDA - Handcrafted Pure Mysore Crape, Manipuri Kota, Pure Kadi Georgette, and Tissue Crape Sarees with Gap Zari Borders. Direct Weaver & Dealer Margins.">
+  <meta name="description" content="Sowji's MUKUNDA - Handcrafted Pure Mysore Crape, Manipuri Kota, Pure Kadi Georgette, and Tissue Crape Sarees with Gap Zari Borders. Authentic Silk Mark Certified Heritage Silks.">
   <meta name="keywords" content="Sowji Mukunda, Brand Mukunda, Pure Mysore Crape Sarees, Manipuri Kota Sarees, Kadi Georgette Sarees, Tissue Crape Sarees, Handloom Sarees WhatsApp">
   <meta name="author" content="Sowji's MUKUNDA">
   
@@ -24,7 +24,7 @@
   <div class="announcement-bar" role="region" aria-label="Special Offers">
     <div class="marquee-track">
       <div class="marquee-item">
-        <span>Sowji's MUKUNDA • Direct Weaver &amp; Reseller Margins</span>
+        <span>Sowji's MUKUNDA • Handcrafted Pure Silk &amp; Heritage Handlooms</span>
         <span class="marquee-separator">✦</span>
         <span>WhatsApp Order &amp; Video Preview: <strong class="highlight">+91 63097 94155</strong></span>
         <span class="marquee-separator">✦</span>
@@ -37,7 +37,7 @@
       </div>
       <!-- Duplicate for infinite seamless marquee loop -->
       <div class="marquee-item" aria-hidden="true">
-        <span>Sowji's MUKUNDA • Direct Weaver &amp; Reseller Margins</span>
+        <span>Sowji's MUKUNDA • Handcrafted Pure Silk &amp; Heritage Handlooms</span>
         <span class="marquee-separator">✦</span>
         <span>WhatsApp Order &amp; Video Preview: <strong class="highlight">+91 63097 94155</strong></span>
         <span class="marquee-separator">✦</span>
@@ -52,7 +52,28 @@
   </div>
 
   <!-- ==========================================================================
-       2. STICKY GLASSMORHIC HEADER & DUAL PRICING MODE TOGGLE
+       PERSISTENT SUBTLE DEALER STATUS BAR (ONLY VISIBLE WHEN AUTHENTICATED)
+       ========================================================================== -->
+  <div class="dealer-status-bar" id="dealerStatusBar" style="display: none;" role="status" aria-live="polite">
+    <div class="container dealer-status-inner">
+      <div class="dealer-status-left">
+        <span class="dealer-status-pill">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          VERIFIED WHOLESALE
+        </span>
+        <span class="dealer-status-text">Logged in as <strong>Registered Dealer / Reseller</strong> • Confidential wholesale margins unlocked</span>
+      </div>
+      <div class="dealer-status-actions">
+        <button class="dealer-logout-link" id="dealerLogoutBtn" title="Switch back to Retail Customer View">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. STICKY GLASSMORHIC HEADER & PROTECTED DEALER ACCESS
        ========================================================================== -->
   <header class="site-header" id="siteHeader">
     <div class="container header-inner">
@@ -89,11 +110,11 @@
       <!-- Right Header Actions -->
       <div class="header-actions">
         
-        <!-- Retail vs Dealer Pricing Mode Toggle -->
-        <div class="pricing-mode-toggle" id="pricingModeToggle" title="Click to switch between Customer Retail and Dealer Wholesale pricing">
-          <span class="toggle-opt active" id="retailOpt">Retail</span>
-          <span class="toggle-opt" id="dealerOpt">Dealer Margin</span>
-        </div>
+        <!-- Protected Dealer / Reseller Login Button -->
+        <button class="dealer-access-btn" id="dealerAccessBtn" title="Protected Dealer & Reseller Access">
+          <svg class="dealer-btn-lock" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="dealerBtnLabel">Dealer / Reseller Login</span>
+        </button>
 
         <!-- Search Bar -->
         <div class="search-box-wrapper" id="searchTrigger">
@@ -153,8 +174,8 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           </div>
           <div class="trust-text">
-            <h4>Direct Dealer Margins</h4>
-            <p>Save ₹200 to ₹300 per saree for wholesale/resellers</p>
+            <h4>Direct Weaver Heritage</h4>
+            <p>Silk Mark certified pure weaves at authentic artisan value</p>
           </div>
         </div>
 
@@ -284,7 +305,7 @@
       <div class="section-header reveal-fade">
         <span class="section-subtitle">Authentic Catalog</span>
         <h2 class="section-title">Most Loved &amp; Ready to Dispatch</h2>
-        <p class="section-desc">Handcrafted sarees with exact pricing and dealer margin discounts direct from Sowji's Mukunda collection.</p>
+        <p class="section-desc">Handcrafted sarees with authentic pure weaves and transparent pricing direct from Sowji's Mukunda collection.</p>
       </div>
 
       <!-- Filter Controls Bar Matching Real WhatsApp Weaves -->
@@ -344,8 +365,8 @@
       
       <div class="section-header reveal-fade">
         <span class="section-subtitle">Patron Diaries</span>
-        <h2 class="section-title">Cherished by 10,000+ Patrons &amp; Resellers</h2>
-        <p class="section-desc">Real buyers and resellers share their experiences with Sowji's Mukunda sarees and prompt WhatsApp dispatch.</p>
+        <h2 class="section-title">Cherished by 10,000+ Patrons Across India</h2>
+        <p class="section-desc">Real saree lovers share their authentic experiences with Sowji's Mukunda weaves and prompt WhatsApp dispatch.</p>
       </div>
 
       <div class="reviews-grid" id="reviewsGrid">
@@ -366,7 +387,7 @@
         <!-- Brand & Heritage -->
         <div class="footer-brand">
           <h3>SOWJI'S MUKUNDA</h3>
-          <p>Handcrafting the soul of Indian handloom heritage and designer ethnic wear. Providing direct customer pricing and generous reseller margins with 100% video-verified dispatch.</p>
+          <p>Handcrafting the soul of Indian handloom heritage and designer ethnic wear. Providing direct artisan pricing and authentic Silk Mark quality with 100% video-verified dispatch.</p>
           
           <div class="footer-contact-info">
             <div>📞 <strong>Direct Orders / WhatsApp:</strong> <a href="https://wa.me/916309794155" target="_blank">+91 63097 94155</a></div>
@@ -415,7 +436,7 @@
         <div class="footer-col">
           <h4 class="footer-heading">Reseller &amp; Orders</h4>
           <ul class="footer-links-list">
-            <li><a href="#">Wholesale &amp; Dealer Inquiries</a></li>
+            <li><a href="#" id="footerDealerLink">Wholesale &amp; Dealer Access</a></li>
             <li><a href="#">Silk Mark Certification</a></li>
             <li><a href="#">Blouse Tailoring Services</a></li>
             <li><a href="#">Track Dispatch via DTDC</a></li>
@@ -505,8 +526,20 @@
         <button class="promo-apply-btn" id="promoApplyBtn">Apply</button>
       </div>
 
+      <!-- Retail Subtotal Row (Visible to verified dealers) -->
+      <div class="cart-summary-line" id="cartRetailRow" style="display: none;">
+        <span>Retail Bag Value</span>
+        <span id="cartRetailValue">₹0</span>
+      </div>
+
+      <!-- Dealer Margin Savings Row (Visible to verified dealers) -->
+      <div class="cart-summary-line" id="cartDealerSavingsRow" style="display: none; color: #1E6B37; font-weight: 600;">
+        <span id="cartDealerSavingsLabel">Wholesale Partner Savings</span>
+        <span id="cartDealerSavings">-₹0</span>
+      </div>
+
       <div class="cart-summary-line">
-        <span>Bag Subtotal</span>
+        <span id="cartSubtotalLabel">Bag Subtotal</span>
         <span id="cartSubtotal">₹0</span>
       </div>
 
@@ -521,13 +554,19 @@
       </div>
 
       <div class="cart-summary-total">
-        <span>Estimated Total</span>
+        <span id="cartTotalLabel">Estimated Total</span>
         <span id="cartTotal">₹0</span>
       </div>
 
-      <button class="checkout-btn" onclick="showToast('Proceeding to Encrypted Heritage Checkout...', '🔒')">
+      <!-- Dealer Privilege Badge in Cart -->
+      <div class="cart-dealer-badge" id="cartDealerBadge" style="display: none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>Registered Dealer Pricing Active</span>
+      </div>
+
+      <button class="checkout-btn" id="cartCheckoutBtn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span>Proceed to Secure Checkout</span>
+        <span id="cartCheckoutBtnText">Proceed to Secure Checkout</span>
       </button>
     </div>
   </aside>
@@ -538,6 +577,63 @@
   <div class="modal-backdrop" id="quickViewModal" aria-hidden="true">
     <div class="quickview-modal-content" id="quickViewModalContent">
       <!-- Injected dynamically via openQuickView() in app.js -->
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       12B. DEALER & RESELLER ACCESS PIN MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="dealerAuthModal" aria-hidden="true">
+    <div class="dealer-auth-card" role="dialog" aria-modal="true" aria-labelledby="dealerModalHeading">
+      <button class="modal-close-btn" id="dealerModalCloseBtn" aria-label="Close modal">&times;</button>
+      
+      <div class="dealer-auth-header">
+        <div class="dealer-lock-emblem">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <span class="dealer-secure-tag">AUTHORIZED PARTNER PORTAL</span>
+        <h3 class="dealer-modal-heading" id="dealerModalHeading">Mukunda Reseller &amp; Dealer Access</h3>
+        <p class="dealer-modal-sub">Enter your authorized Dealer Access Code / PIN to unlock wholesale margins and dealer pricing across all weaves.</p>
+      </div>
+
+      <form class="dealer-auth-form" id="dealerAuthForm" onsubmit="event.preventDefault();">
+        <div class="dealer-field-group">
+          <label for="dealerPinInput" class="dealer-field-label">Dealer Access Code / PIN</label>
+          <div class="dealer-input-wrapper">
+            <input 
+              type="password" 
+              id="dealerPinInput" 
+              class="dealer-pin-field" 
+              placeholder="Enter PIN (e.g. 2026 or MUKUNDA)" 
+              autocomplete="off" 
+              required
+            />
+            <button type="button" class="dealer-pin-eye-btn" id="dealerPinEyeBtn" aria-label="Toggle PIN visibility">
+              <svg class="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="dealer-auth-error-msg" id="dealerAuthError" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>Invalid PIN. Enter authorized dealer code (Demo: 2026 or MUKUNDA).</span>
+          </div>
+        </div>
+
+        <div class="dealer-demo-badge">
+          <span>✦ Demo Access PIN: <strong>2026</strong> or <strong>MUKUNDA</strong></span>
+        </div>
+
+        <button type="submit" class="dealer-unlock-btn" id="dealerUnlockBtn">
+          <span>Verify &amp; Unlock Wholesale View</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <div class="dealer-modal-footnote">
+        <span>Not registered yet? Request partner access:</span>
+        <a href="https://wa.me/916309794155?text=Namaste%20Sowji%20Garu!%20I%20am%20a%20reseller/dealer%20requesting%20access%20PIN%20for%20Mukunda%20wholesale%20rates." target="_blank" class="dealer-wa-contact">
+          Contact Sowji's Mukunda on WhatsApp &rarr;
+        </a>
+      </div>
     </div>
   </div>
 
@@ -568,7 +664,7 @@
       <span class="brand-logo-text" style="font-size: 1.5rem;">SOWJI'S MUKUNDA</span>
       <button class="drawer-close-btn" id="mobileDrawerClose">&times;</button>
     </div>
-    <div style="padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 1.5rem;">
+    <div style="padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 1.25rem;">
       <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">New Arrivals</a>
       <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Pure Mysore Crape</a>
       <a href="#featured-products" class="nav-link" onclick="document.getElementById('mobileDrawerClose').click();">Pure Manipuri Kota</a>
@@ -577,7 +673,14 @@
       <a href="promo-video.html" class="nav-link" style="color: #8C2D38; font-weight: 700;">🎬 Watch Brand Film (Reel)</a>
       <a href="presentation.html" class="nav-link" style="color: #C5A059; font-weight: 700;">📊 View Pitch Deck (Slides)</a>
       <hr style="border: none; border-top: 1px solid var(--border-gold);">
-      <a href="https://wa.me/916309794155" target="_blank" style="display: flex; align-items: center; gap: 0.75rem; color: #25D366; font-weight: 700; cursor: pointer;">
+      
+      <!-- Mobile Dealer Trigger -->
+      <button class="mobile-dealer-btn" id="mobileDealerTrigger">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span id="mobileDealerBtnLabel">Dealer / Reseller Login</span>
+      </button>
+
+      <a href="https://wa.me/916309794155" target="_blank" style="display: flex; align-items: center; gap: 0.75rem; color: #25D366; font-weight: 700; cursor: pointer; text-decoration: none; margin-top: 0.5rem;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
         <span>WhatsApp Order (+91 63097 94155)</span>
       </a>

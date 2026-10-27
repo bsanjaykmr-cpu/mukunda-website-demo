@@ -1,6 +1,8 @@
 /**
  * SOWJI'S MUKUNDA - Heritage Silks & Designer Wear
- * Application Controller with 100% Authentic Client Data
+ * Application Controller with Strict Role-Based Pricing Architecture:
+ * - Default: Retail / Customer View (100% clean, zero dealer references)
+ * - Protected: Dealer / Reseller Mode (PIN Authenticated: '2026' or 'MUKUNDA')
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     wishlist: JSON.parse(localStorage.getItem('mukunda_wishlist') || '[]'),
     activeOccasionTab: 'sarees',
     activeProductFilter: 'all',
-    pricingMode: 'retail', // 'retail' or 'dealer'
+    // Default Mode is Retail (Customer View). Dealer Mode is unlocked ONLY after PIN verification.
+    isDealer: localStorage.getItem('mukunda_dealer_authenticated') === 'true',
     currentHeroSlide: 0,
     heroAutoplayTimer: null,
     appliedPromo: null,
@@ -25,9 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
     heroDotsContainer: document.getElementById('heroDots'),
     heroPrevBtn: document.getElementById('heroPrevBtn'),
     heroNextBtn: document.getElementById('heroNextBtn'),
-    pricingModeToggle: document.getElementById('pricingModeToggle'),
-    retailOpt: document.getElementById('retailOpt'),
-    dealerOpt: document.getElementById('dealerOpt'),
+    
+    // Dealer Authentication & Status Controls
+    dealerStatusBar: document.getElementById('dealerStatusBar'),
+    dealerLogoutBtn: document.getElementById('dealerLogoutBtn'),
+    dealerAccessBtn: document.getElementById('dealerAccessBtn'),
+    dealerBtnLabel: document.getElementById('dealerBtnLabel'),
+    mobileDealerTrigger: document.getElementById('mobileDealerTrigger'),
+    mobileDealerBtnLabel: document.getElementById('mobileDealerBtnLabel'),
+    footerDealerLink: document.getElementById('footerDealerLink'),
+    dealerAuthModal: document.getElementById('dealerAuthModal'),
+    dealerModalCloseBtn: document.getElementById('dealerModalCloseBtn'),
+    dealerAuthForm: document.getElementById('dealerAuthForm'),
+    dealerPinInput: document.getElementById('dealerPinInput'),
+    dealerPinEyeBtn: document.getElementById('dealerPinEyeBtn'),
+    dealerAuthError: document.getElementById('dealerAuthError'),
+
+    // Main Content Containers
     occasionTabs: document.querySelectorAll('.tab-pill'),
     bentoGrid: document.getElementById('bentoGrid'),
     dualCardsGrid: document.getElementById('dualCardsGrid'),
@@ -35,24 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
     productsGrid: document.getElementById('productsGrid'),
     fabricsGrid: document.getElementById('fabricsGrid'),
     reviewsGrid: document.getElementById('reviewsGrid'),
+    
+    // Cart Elements
     cartTrigger: document.getElementById('cartTrigger'),
     cartDrawer: document.getElementById('cartDrawer'),
     drawerBackdrop: document.getElementById('drawerBackdrop'),
     drawerCloseBtn: document.getElementById('drawerCloseBtn'),
     cartItemsList: document.getElementById('cartItemsList'),
     cartCountBadge: document.getElementById('cartCountBadge'),
+    cartRetailRow: document.getElementById('cartRetailRow'),
+    cartRetailValue: document.getElementById('cartRetailValue'),
+    cartDealerSavingsRow: document.getElementById('cartDealerSavingsRow'),
+    cartDealerSavings: document.getElementById('cartDealerSavings'),
+    cartSubtotalLabel: document.getElementById('cartSubtotalLabel'),
     cartSubtotal: document.getElementById('cartSubtotal'),
     cartDiscount: document.getElementById('cartDiscount'),
     cartDiscountRow: document.getElementById('cartDiscountRow'),
+    cartTotalLabel: document.getElementById('cartTotalLabel'),
     cartTotal: document.getElementById('cartTotal'),
+    cartDealerBadge: document.getElementById('cartDealerBadge'),
+    cartCheckoutBtn: document.getElementById('cartCheckoutBtn'),
+    cartCheckoutBtnText: document.getElementById('cartCheckoutBtnText'),
     shippingProgressFill: document.getElementById('shippingProgressFill'),
     shippingStatusText: document.getElementById('shippingStatusText'),
     promoInput: document.getElementById('promoInput'),
     promoApplyBtn: document.getElementById('promoApplyBtn'),
+    
+    // Wishlist & Quick View
     wishlistTrigger: document.getElementById('wishlistTrigger'),
     wishlistCountBadge: document.getElementById('wishlistCountBadge'),
     quickViewModal: document.getElementById('quickViewModal'),
     quickViewModalContent: document.getElementById('quickViewModalContent'),
+    
+    // Search Overlay & Mobile Drawer
     searchTrigger: document.getElementById('searchTrigger'),
     searchOverlay: document.getElementById('searchOverlay'),
     searchOverlayInput: document.getElementById('searchOverlayInput'),
@@ -86,18 +118,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3200);
   };
 
+  const getItemRetailPrice = (item) => {
+    const prod = PRODUCTS_DATA.find(p => p.id === item.id);
+    return prod ? prod.price : (item.price || 0);
+  };
+
+  const getItemDealerPrice = (item) => {
+    const prod = PRODUCTS_DATA.find(p => p.id === item.id);
+    return prod ? prod.dealerPrice : (item.dealerPrice || item.price || 0);
+  };
+
+  const getItemDealerMargin = (item) => {
+    const prod = PRODUCTS_DATA.find(p => p.id === item.id);
+    return prod ? prod.dealerDiscount : (item.dealerDiscount || 0);
+  };
+
   /* ==========================================================================
-     2. EDITORIAL HERO SHOWCASE SLIDER
+     2. EDITORIAL HERO SHOWCASE SLIDER (ROLE-BASED PRICING ENFORCEMENT)
      ========================================================================== */
   const initHeroCarousel = () => {
     if (!DOM.heroSliderTrack || !HERO_SLIDES.length) return;
 
     DOM.heroSliderTrack.innerHTML = HERO_SLIDES.map((slide, idx) => {
-      const waMsg = encodeURIComponent(`Namaste Sowji Garu! Please share video details and availability of: ${slide.title} (Customer Price: ₹${slide.customerPrice})`);
+      const isDealerMode = state.isDealer;
+      
+      let waMsg = '';
+      if (isDealerMode) {
+        waMsg = encodeURIComponent(`Namaste Sowji Garu! Dealer Order (PIN Verified): ${slide.title} (Retail: ₹${slide.customerPrice} | Dealer Price: ₹${slide.dealerPrice})`);
+      } else {
+        waMsg = encodeURIComponent(`Namaste Sowji Garu! Please share video details and availability of: ${slide.title} (Price: ₹${slide.customerPrice})`);
+      }
       const waUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${waMsg}`;
 
+      // In Retail Mode: Show ONLY standard price and strike-through MRP. HIDE all dealer hints!
+      // In Dealer Mode: Show Retail Customer Price, Your Dealer Price, and Dealer Margin Pill.
+      const heroPricingHtml = isDealerMode ? `
+        <div class="hero-pricing-box">
+          <div>
+            <span class="hero-price-lbl">Retail Customer Price</span>
+            <span class="hero-retail-subval">${formatCurrency(slide.customerPrice)}</span>
+          </div>
+          <div>
+            <span class="hero-price-lbl">Your Dealer Price</span>
+            <span class="hero-price-val dealer-color">${formatCurrency(slide.dealerPrice)}</span>
+          </div>
+          <div class="hero-dealer-pill">
+            <span>Your Margin: ₹${slide.dealerDiscount} / Saree</span>
+          </div>
+          <div>
+            <span class="hero-price-lbl">Market MRP</span>
+            <span class="hero-mrp-val">${formatCurrency(slide.mrp)}</span>
+          </div>
+        </div>
+      ` : `
+        <div class="hero-pricing-box">
+          <div>
+            <span class="hero-price-lbl">Standard Retail Price</span>
+            <span class="hero-price-val">${formatCurrency(slide.customerPrice)}</span>
+          </div>
+          <div>
+            <span class="hero-price-lbl">Market MRP</span>
+            <span class="hero-mrp-val">${formatCurrency(slide.mrp)}</span>
+          </div>
+        </div>
+      `;
+
       return `
-        <div class="hero-slide ${idx === 0 ? 'active' : ''}" data-index="${idx}">
+        <div class="hero-slide ${idx === state.currentHeroSlide ? 'active' : ''}" data-index="${idx}">
           <div class="container">
             <div class="hero-split-grid">
               
@@ -107,19 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h1 class="hero-title">${slide.title}</h1>
                 <p class="hero-description">${slide.description}</p>
                 
-                <div class="hero-pricing-box">
-                  <div>
-                    <span style="font-size: 0.725rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8E857B; display: block; font-weight: 700;">Customer Price</span>
-                    <span class="hero-price-val">${formatCurrency(slide.customerPrice)}</span>
-                  </div>
-                  <div class="hero-dealer-pill">
-                    <span>₹${slide.dealerDiscount} Dealer Margin</span>
-                  </div>
-                  <div>
-                    <span style="font-size: 0.725rem; text-transform: uppercase; letter-spacing: 0.08em; color: #8E857B; display: block; font-weight: 700;">Market MRP</span>
-                    <span class="hero-mrp-val">${formatCurrency(slide.mrp)}</span>
-                  </div>
-                </div>
+                ${heroPricingHtml}
 
                 <div class="hero-cta-group">
                   <a href="${slide.ctaLink}" class="btn-regal-shimmer">
@@ -128,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   </a>
                   <a href="${waUrl}" target="_blank" class="btn-whatsapp-hero">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
-                    <span>WhatsApp Enquiry</span>
+                    <span>${isDealerMode ? 'WhatsApp Dealer Order' : 'WhatsApp Enquiry'}</span>
                   </a>
                 </div>
               </div>
@@ -151,8 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
-    // Render Hero Dots
-    if (DOM.heroDotsContainer) {
+    // Render Hero Dots if not already built
+    if (DOM.heroDotsContainer && !DOM.heroDotsContainer.children.length) {
       DOM.heroDotsContainer.innerHTML = HERO_SLIDES.map((_, idx) => `
         <div class="hero-dot-pill ${idx === 0 ? 'active' : ''}" data-index="${idx}"></div>
       `).join('');
@@ -166,25 +241,29 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    if (DOM.heroPrevBtn) {
+    if (DOM.heroPrevBtn && !DOM.heroPrevBtn._hasHeroNav) {
+      DOM.heroPrevBtn._hasHeroNav = true;
       DOM.heroPrevBtn.addEventListener('click', () => {
         prevHeroSlide();
         resetHeroAutoplay();
       });
     }
 
-    if (DOM.heroNextBtn) {
+    if (DOM.heroNextBtn && !DOM.heroNextBtn._hasHeroNav) {
+      DOM.heroNextBtn._hasHeroNav = true;
       DOM.heroNextBtn.addEventListener('click', () => {
         nextHeroSlide();
         resetHeroAutoplay();
       });
     }
 
-    startHeroAutoplay();
+    if (!state.heroAutoplayTimer) {
+      startHeroAutoplay();
+    }
   };
 
   const goToHeroSlide = (index) => {
-    const slides = DOM.heroSliderTrack.querySelectorAll('.hero-slide');
+    const slides = DOM.heroSliderTrack ? DOM.heroSliderTrack.querySelectorAll('.hero-slide') : [];
     const dots = DOM.heroDotsContainer ? DOM.heroDotsContainer.querySelectorAll('.hero-dot-pill') : [];
     
     slides.forEach((s, idx) => {
@@ -218,25 +297,160 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ==========================================================================
-     3. RETAIL VS DEALER / WHOLESALE PRICING TOGGLE
+     3. DEALER & RESELLER ACCESS CONTROLLER (PIN PROTECTED MODAL)
      ========================================================================== */
-  const initPricingModeToggle = () => {
-    if (!DOM.pricingModeToggle) return;
+  const VALID_DEALER_PINS = ['2026', 'MUKUNDA', 'MUKUNDA2026', 'SOWJI'];
 
-    DOM.pricingModeToggle.addEventListener('click', () => {
-      if (state.pricingMode === 'retail') {
-        state.pricingMode = 'dealer';
-        DOM.retailOpt?.classList.remove('active');
-        DOM.dealerOpt?.classList.add('active');
-        showToast('Wholesale / Dealer Margin Pricing Mode Activated!', '🏷️');
-      } else {
-        state.pricingMode = 'retail';
-        DOM.dealerOpt?.classList.remove('active');
-        DOM.retailOpt?.classList.add('active');
-        showToast('Standard Customer Retail Pricing Mode Activated!', '🛍️');
+  const openDealerModal = () => {
+    if (!DOM.dealerAuthModal) return;
+    if (DOM.dealerPinInput) {
+      DOM.dealerPinInput.value = '';
+      DOM.dealerPinInput.type = 'password';
+    }
+    if (DOM.dealerAuthError) {
+      DOM.dealerAuthError.style.display = 'none';
+    }
+    DOM.dealerAuthModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => DOM.dealerPinInput?.focus(), 150);
+  };
+
+  const closeDealerModal = () => {
+    if (!DOM.dealerAuthModal) return;
+    DOM.dealerAuthModal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  const authenticateDealer = (pin) => {
+    const cleanPin = pin.trim().toUpperCase();
+    if (VALID_DEALER_PINS.includes(cleanPin)) {
+      state.isDealer = true;
+      localStorage.setItem('mukunda_dealer_authenticated', 'true');
+      closeDealerModal();
+      updateDealerModeUI();
+      showToast('Welcome Registered Partner! Wholesale Pricing Unlocked.', '👑');
+    } else {
+      if (DOM.dealerAuthError) {
+        DOM.dealerAuthError.style.display = 'flex';
       }
-      renderProducts(state.activeProductFilter);
+      if (DOM.dealerPinInput) {
+        DOM.dealerPinInput.focus();
+        DOM.dealerPinInput.select();
+      }
+    }
+  };
+
+  const logoutDealer = () => {
+    state.isDealer = false;
+    localStorage.removeItem('mukunda_dealer_authenticated');
+    updateDealerModeUI();
+    showToast('Switched to Standard Customer Retail View.', '🛍️');
+  };
+
+  const updateDealerModeUI = () => {
+    const isDealer = state.isDealer;
+
+    // 1. Persistent Top Status Bar
+    if (DOM.dealerStatusBar) {
+      DOM.dealerStatusBar.style.display = isDealer ? 'block' : 'none';
+    }
+
+    // 2. Header Trigger Button
+    if (DOM.dealerAccessBtn) {
+      DOM.dealerAccessBtn.classList.toggle('dealer-active', isDealer);
+      if (DOM.dealerBtnLabel) {
+        DOM.dealerBtnLabel.textContent = isDealer ? '👑 Dealer Active' : 'Dealer / Reseller Login';
+      }
+    }
+
+    // 3. Mobile Navigation Drawer Trigger
+    if (DOM.mobileDealerTrigger) {
+      DOM.mobileDealerTrigger.classList.toggle('dealer-active', isDealer);
+      if (DOM.mobileDealerBtnLabel) {
+        DOM.mobileDealerBtnLabel.textContent = isDealer ? '👑 Dealer Active (Logout)' : 'Dealer / Reseller Login';
+      }
+    }
+
+    // 4. Update Hero Pricing
+    initHeroCarousel();
+
+    // 5. Update Product Cards Grid
+    renderProducts(state.activeProductFilter);
+
+    // 6. Refresh Quick View Modal if active
+    if (state.quickViewProduct && DOM.quickViewModal?.classList.contains('active')) {
+      openQuickView(state.quickViewProduct.id);
+    }
+
+    // 7. Update Cart Drawer UI
+    updateCartUI();
+  };
+
+  const initDealerAccess = () => {
+    // Header Button Action
+    DOM.dealerAccessBtn?.addEventListener('click', () => {
+      if (state.isDealer) {
+        if (confirm('You are currently viewing Wholesale Dealer Pricing. Switch back to Customer Retail View?')) {
+          logoutDealer();
+        }
+      } else {
+        openDealerModal();
+      }
     });
+
+    // Top Status Bar Logout Button
+    DOM.dealerLogoutBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      logoutDealer();
+    });
+
+    // Mobile Drawer Button
+    DOM.mobileDealerTrigger?.addEventListener('click', () => {
+      DOM.mobileDrawer?.classList.remove('active');
+      DOM.drawerBackdrop?.classList.remove('active');
+      document.body.style.overflow = '';
+      if (state.isDealer) {
+        if (confirm('Switch back to Retail Customer View?')) {
+          logoutDealer();
+        }
+      } else {
+        openDealerModal();
+      }
+    });
+
+    // Footer Wholesale Link
+    DOM.footerDealerLink?.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (state.isDealer) {
+        showToast('Registered Dealer Mode is already active!', '👑');
+      } else {
+        openDealerModal();
+      }
+    });
+
+    // Modal Close
+    DOM.dealerModalCloseBtn?.addEventListener('click', closeDealerModal);
+    DOM.dealerAuthModal?.addEventListener('click', (e) => {
+      if (e.target === DOM.dealerAuthModal) closeDealerModal();
+    });
+
+    // Eye button toggle for PIN visibility
+    DOM.dealerPinEyeBtn?.addEventListener('click', () => {
+      if (!DOM.dealerPinInput) return;
+      const isPass = DOM.dealerPinInput.type === 'password';
+      DOM.dealerPinInput.type = isPass ? 'text' : 'password';
+      DOM.dealerPinEyeBtn.style.color = isPass ? 'var(--gold-zari-dark)' : 'var(--text-muted)';
+    });
+
+    // Form Submit
+    DOM.dealerAuthForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pin = DOM.dealerPinInput?.value || '';
+      authenticateDealer(pin);
+    });
+
+    // Initialize UI based on stored state
+    updateDealerModeUI();
   };
 
   /* ==========================================================================
@@ -313,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ==========================================================================
-     6. "MOST LOVED" PRODUCTS WITH REAL LOCAL IMAGES & DIRECT WHATSAPP BUTTON
+     6. "MOST LOVED" PRODUCTS (STRICT ROLE-BASED PRICE ENFORCEMENT)
      ========================================================================== */
   const getBadgeClass = (badge) => {
     if (badge.includes('Pure')) return 'badge-pure';
@@ -332,15 +546,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     DOM.productsGrid.innerHTML = filtered.map(prod => {
       const isWishlisted = state.wishlist.some(item => item.id === prod.id);
-      const isDealerMode = state.pricingMode === 'dealer';
+      const isDealerMode = state.isDealer;
       
-      const displayPrice = isDealerMode ? prod.dealerPrice : prod.price;
-      const comparePrice = isDealerMode ? prod.price : prod.originalPrice;
-      const discountLabel = isDealerMode 
-        ? `Save ₹${prod.dealerDiscount} Dealer Margin` 
-        : `${Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100)}% OFF`;
+      const discountPercent = Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100);
 
-      const whatsappText = encodeURIComponent(`Namaste Sowji Garu! I want to order from Brand Mukunda:\n*Saree:* ${prod.name}\n*Price:* ₹${displayPrice}\n*Ref Image:* ${prod.images.primary}`);
+      // In Dealer Mode: show Retail Price, Your Dealer Price, and Dealer Margin Badge.
+      // In Retail Mode: show ONLY Retail Price and strike-through MRP. ZERO mention of dealer discounts!
+      const pricingHtml = isDealerMode ? `
+        <div class="product-dealer-box">
+          <div class="dealer-pricing-lines">
+            <div class="dealer-line-retail">
+              <span class="lbl">Retail Customer Price:</span>
+              <span class="val">${formatCurrency(prod.price)}</span>
+            </div>
+            <div class="dealer-line-yours">
+              <span class="lbl">Your Dealer Price:</span>
+              <span class="val highlight">${formatCurrency(prod.dealerPrice)}</span>
+            </div>
+          </div>
+          <div class="dealer-badge-row">
+            <span class="dealer-margin-pill">Your Margin: ₹${prod.dealerDiscount} / Saree</span>
+            <span class="original-price">MRP ${formatCurrency(prod.originalPrice)}</span>
+          </div>
+        </div>
+      ` : `
+        <div class="product-price-row">
+          <span class="current-price">${formatCurrency(prod.price)}</span>
+          <span class="original-price">${formatCurrency(prod.originalPrice)}</span>
+          <span class="discount-percentage">${discountPercent}% OFF</span>
+        </div>
+      `;
+
+      let whatsappText = '';
+      if (isDealerMode) {
+        whatsappText = encodeURIComponent(
+          `Namaste Sowji Garu! Dealer Order (PIN Verified) - Dealer Price: ₹${prod.dealerPrice}\n` +
+          `*Saree:* ${prod.name}\n` +
+          `*Retail Customer Price:* ₹${prod.price}\n` +
+          `*Your Margin:* ₹${prod.dealerDiscount} / Saree\n` +
+          `*Ref Image:* ${prod.images.primary}`
+        );
+      } else {
+        whatsappText = encodeURIComponent(
+          `Namaste Sowji Garu! I want to order from Brand Mukunda:\n` +
+          `*Saree:* ${prod.name}\n` +
+          `*Price:* ₹${prod.price}\n` +
+          `*Ref Image:* ${prod.images.primary}`
+        );
+      }
       const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${whatsappText}`;
 
       return `
@@ -381,15 +634,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span><strong>${prod.rating}</strong> (${prod.reviewsCount} reviews)</span>
             </div>
 
-            <div class="product-price-row">
-              <span class="current-price">${formatCurrency(displayPrice)}</span>
-              <span class="original-price">${formatCurrency(comparePrice)}</span>
-              <span class="discount-percentage">${isDealerMode ? 'Wholesale' : discountLabel}</span>
-            </div>
-
-            <span class="dealer-margin-pill">
-              ${isDealerMode ? `Dealer Margin: ₹${prod.dealerDiscount} / pc` : `Reseller Margin: ₹${prod.dealerDiscount} Less`}
-            </span>
+            ${pricingHtml}
 
             <!-- Dual Action Row: Add to Bag + Buy on WhatsApp -->
             <div class="product-card-actions-row">
@@ -397,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 <span>Add to Bag</span>
               </button>
-              <a href="${whatsappUrl}" target="_blank" class="btn-buy-whatsapp" title="Buy Directly on WhatsApp">
+              <a href="${whatsappUrl}" target="_blank" class="btn-buy-whatsapp" title="${isDealerMode ? 'Place Dealer Order on WhatsApp' : 'Buy Directly on WhatsApp'}">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
                 <span>WhatsApp</span>
               </a>
@@ -418,8 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const prodId = e.currentTarget.dataset.id;
         const product = PRODUCTS_DATA.find(p => p.id === prodId);
         if (product) {
-          const finalPrice = state.pricingMode === 'dealer' ? product.dealerPrice : product.price;
-          addToCart({ ...product, price: finalPrice }, product.options[0]);
+          addToCart(product, product.options[0]);
         }
       });
     });
@@ -431,8 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const option = e.currentTarget.dataset.option;
         const product = PRODUCTS_DATA.find(p => p.id === prodId);
         if (product) {
-          const finalPrice = state.pricingMode === 'dealer' ? product.dealerPrice : product.price;
-          addToCart({ ...product, price: finalPrice }, option);
+          addToCart(product, option);
         }
       });
     });
@@ -531,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ==========================================================================
-     8. SHOPPING CART LOGIC & DRAWER
+     8. SHOPPING CART LOGIC & DRAWER (STRICT ROLE-BASED ENFORCEMENT)
      ========================================================================== */
   const addToCart = (product, option = 'Unstitched (6.3m)', quantity = 1) => {
     const existingIndex = state.cart.findIndex(
@@ -545,6 +788,8 @@ document.addEventListener('DOMContentLoaded', () => {
         id: product.id,
         name: product.name,
         price: product.price,
+        dealerPrice: product.dealerPrice,
+        dealerDiscount: product.dealerDiscount,
         image: product.images.primary,
         fabric: product.fabric,
         option: option,
@@ -583,22 +828,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateCartUI = () => {
     const totalCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
-    const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const retailSubtotal = state.cart.reduce((sum, item) => sum + (getItemRetailPrice(item) * item.quantity), 0);
+    const dealerSubtotal = state.cart.reduce((sum, item) => sum + (getItemDealerPrice(item) * item.quantity), 0);
+    const totalDealerSavings = Math.max(0, retailSubtotal - dealerSubtotal);
+    const activeSubtotal = state.isDealer ? dealerSubtotal : retailSubtotal;
 
     if (DOM.cartCountBadge) {
       DOM.cartCountBadge.textContent = totalCount;
       DOM.cartCountBadge.style.display = totalCount > 0 ? 'flex' : 'none';
     }
 
-    // Free Shipping Progress
+    // Free Shipping Progress based on active subtotal
     const threshold = SITE_CONFIG.freeShippingThreshold;
     if (DOM.shippingProgressFill && DOM.shippingStatusText) {
-      if (subtotal >= threshold) {
+      if (activeSubtotal >= threshold) {
         DOM.shippingProgressFill.style.width = '100%';
         DOM.shippingStatusText.innerHTML = `<span><strong>Royal Privilege Unlocked!</strong></span> <span class="text-rose">Free Express Shipping</span>`;
       } else {
-        const remaining = threshold - subtotal;
-        const percent = Math.min((subtotal / threshold) * 100, 100);
+        const remaining = threshold - activeSubtotal;
+        const percent = Math.min((activeSubtotal / threshold) * 100, 100);
         DOM.shippingProgressFill.style.width = `${percent}%`;
         DOM.shippingStatusText.innerHTML = `<span>Add <strong>${formatCurrency(remaining)}</strong> more for <strong>Free Express Shipping</strong></span>`;
       }
@@ -615,24 +863,34 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       `;
     } else {
-      DOM.cartItemsList.innerHTML = state.cart.map((item, idx) => `
-        <div class="cart-item">
-          <img class="cart-item-img" src="${item.image}" alt="${item.name}">
-          <div class="cart-item-details">
-            <h5 class="cart-item-name">${item.name}</h5>
-            <span class="cart-item-option">Drape: ${item.option}</span>
-            <div class="cart-item-bottom">
-              <div class="qty-counter">
-                <button class="qty-btn dec-btn" data-index="${idx}">−</button>
-                <span class="qty-val">${item.quantity}</span>
-                <button class="qty-btn inc-btn" data-index="${idx}">+</button>
+      DOM.cartItemsList.innerHTML = state.cart.map((item, idx) => {
+        const itemRetail = getItemRetailPrice(item);
+        const itemDealer = getItemDealerPrice(item);
+        const itemMargin = getItemDealerMargin(item);
+        const displayItemPrice = state.isDealer ? itemDealer : itemRetail;
+
+        return `
+          <div class="cart-item">
+            <img class="cart-item-img" src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+              <h5 class="cart-item-name">${item.name}</h5>
+              <span class="cart-item-option">Drape: ${item.option}</span>
+              <div class="cart-item-bottom">
+                <div class="qty-counter">
+                  <button class="qty-btn dec-btn" data-index="${idx}">−</button>
+                  <span class="qty-val">${item.quantity}</span>
+                  <button class="qty-btn inc-btn" data-index="${idx}">+</button>
+                </div>
+                <div style="text-align: right;">
+                  <span class="cart-item-price">${formatCurrency(displayItemPrice * item.quantity)}</span>
+                  ${state.isDealer ? `<span class="cart-dealer-subtag">Dealer Rate • Saves ₹${itemMargin * item.quantity}</span>` : ''}
+                </div>
+                <span class="cart-item-remove" data-index="${idx}">Remove</span>
               </div>
-              <span class="cart-item-price">${formatCurrency(item.price * item.quantity)}</span>
-              <span class="cart-item-remove" data-index="${idx}">Remove</span>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       DOM.cartItemsList.querySelectorAll('.dec-btn').forEach(b => {
         b.addEventListener('click', (e) => updateCartQuantity(parseInt(e.target.dataset.index, 10), -1));
@@ -645,19 +903,43 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Calculations & Promo
+    // Calculations & Promo Savings
     let discountAmount = 0;
     if (state.appliedPromo) {
       if (state.appliedPromo.discountPercent) {
-        discountAmount = Math.round((subtotal * state.appliedPromo.discountPercent) / 100);
+        discountAmount = Math.round((activeSubtotal * state.appliedPromo.discountPercent) / 100);
       } else if (state.appliedPromo.flatDiscount) {
-        discountAmount = Math.min(state.appliedPromo.flatDiscount, subtotal);
+        discountAmount = Math.min(state.appliedPromo.flatDiscount, activeSubtotal);
       }
     }
 
-    const finalTotal = Math.max(0, subtotal - discountAmount);
+    const finalTotal = Math.max(0, activeSubtotal - discountAmount);
 
-    if (DOM.cartSubtotal) DOM.cartSubtotal.textContent = formatCurrency(subtotal);
+    // Enforce Role-Based Drawer Summary Lines
+    if (state.isDealer) {
+      if (DOM.cartRetailRow) {
+        DOM.cartRetailRow.style.display = 'flex';
+        if (DOM.cartRetailValue) DOM.cartRetailValue.textContent = formatCurrency(retailSubtotal);
+      }
+      if (DOM.cartDealerSavingsRow) {
+        DOM.cartDealerSavingsRow.style.display = 'flex';
+        if (DOM.cartDealerSavings) DOM.cartDealerSavings.textContent = `-${formatCurrency(totalDealerSavings)}`;
+      }
+      if (DOM.cartSubtotalLabel) DOM.cartSubtotalLabel.textContent = 'Wholesale Net Subtotal';
+      if (DOM.cartSubtotal) DOM.cartSubtotal.textContent = formatCurrency(dealerSubtotal);
+      if (DOM.cartTotalLabel) DOM.cartTotalLabel.textContent = 'Wholesale Pay Total';
+      if (DOM.cartDealerBadge) DOM.cartDealerBadge.style.display = 'flex';
+      if (DOM.cartCheckoutBtnText) DOM.cartCheckoutBtnText.textContent = 'Proceed to Dealer Checkout (PIN Verified)';
+    } else {
+      if (DOM.cartRetailRow) DOM.cartRetailRow.style.display = 'none';
+      if (DOM.cartDealerSavingsRow) DOM.cartDealerSavingsRow.style.display = 'none';
+      if (DOM.cartSubtotalLabel) DOM.cartSubtotalLabel.textContent = 'Bag Subtotal';
+      if (DOM.cartSubtotal) DOM.cartSubtotal.textContent = formatCurrency(retailSubtotal);
+      if (DOM.cartTotalLabel) DOM.cartTotalLabel.textContent = 'Estimated Total';
+      if (DOM.cartDealerBadge) DOM.cartDealerBadge.style.display = 'none';
+      if (DOM.cartCheckoutBtnText) DOM.cartCheckoutBtnText.textContent = 'Proceed to Secure Checkout';
+    }
+
     if (DOM.cartDiscount) DOM.cartDiscount.textContent = `-${formatCurrency(discountAmount)}`;
     if (DOM.cartDiscountRow) DOM.cartDiscountRow.style.display = discountAmount > 0 ? 'flex' : 'none';
     if (DOM.cartTotal) DOM.cartTotal.textContent = formatCurrency(finalTotal);
@@ -685,6 +967,57 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       showToast('Invalid promo code. Try "MUKUNDA10" or "DEALER500".', '⚠️');
     }
+  };
+
+  const handleCartCheckout = () => {
+    if (state.cart.length === 0) {
+      showToast('Your Bag is empty! Select a saree first.', '🛍️');
+      return;
+    }
+
+    const totalCount = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+    const retailSubtotal = state.cart.reduce((sum, item) => sum + (getItemRetailPrice(item) * item.quantity), 0);
+    const dealerSubtotal = state.cart.reduce((sum, item) => sum + (getItemDealerPrice(item) * item.quantity), 0);
+    const totalDealerSavings = Math.max(0, retailSubtotal - dealerSubtotal);
+    const activeSubtotal = state.isDealer ? dealerSubtotal : retailSubtotal;
+
+    let discountAmount = 0;
+    if (state.appliedPromo) {
+      if (state.appliedPromo.discountPercent) {
+        discountAmount = Math.round((activeSubtotal * state.appliedPromo.discountPercent) / 100);
+      } else if (state.appliedPromo.flatDiscount) {
+        discountAmount = Math.min(state.appliedPromo.flatDiscount, activeSubtotal);
+      }
+    }
+    const finalTotal = Math.max(0, activeSubtotal - discountAmount);
+
+    let message = '';
+    if (state.isDealer) {
+      message = `Namaste Sowji Garu! Dealer Order (PIN Verified):\n\n`;
+      state.cart.forEach((item, idx) => {
+        const itemDealer = getItemDealerPrice(item);
+        message += `${idx + 1}. ${item.name} (${item.option}) x ${item.quantity} = ₹${itemDealer * item.quantity}\n`;
+      });
+      message += `\n*Total Items:* ${totalCount}\n`;
+      message += `*Retail Value:* ₹${retailSubtotal}\n`;
+      message += `*Dealer Margin Saved:* ₹${totalDealerSavings}\n`;
+      if (discountAmount > 0) message += `*Promo Discount:* -₹${discountAmount}\n`;
+      message += `*Wholesale Pay Total:* ₹${finalTotal}\n\n`;
+      message += `Please confirm availability and dispatch details.`;
+    } else {
+      message = `Namaste Sowji Garu! I want to order from Brand Mukunda:\n\n`;
+      state.cart.forEach((item, idx) => {
+        const itemRetail = getItemRetailPrice(item);
+        message += `${idx + 1}. ${item.name} (${item.option}) x ${item.quantity} = ₹${itemRetail * item.quantity}\n`;
+      });
+      message += `\n*Total Items:* ${totalCount}\n`;
+      if (discountAmount > 0) message += `*Promo Discount:* -₹${discountAmount}\n`;
+      message += `*Total Amount:* ₹${finalTotal}\n\n`;
+      message += `Please share payment details and dispatch confirmation.`;
+    }
+
+    const waUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
   };
 
   /* ==========================================================================
@@ -720,7 +1053,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   /* ==========================================================================
-     10. QUICK VIEW MODAL CONTROLLER
+     10. QUICK VIEW MODAL (ROLE-BASED PRICING ENFORCEMENT)
      ========================================================================== */
   const openQuickView = (productId) => {
     const prod = PRODUCTS_DATA.find(p => p.id === productId);
@@ -728,13 +1061,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     state.quickViewProduct = prod;
     state.quickViewSelectedOption = prod.options[0];
-    const isDealerMode = state.pricingMode === 'dealer';
-    const displayPrice = isDealerMode ? prod.dealerPrice : prod.price;
+    const isDealerMode = state.isDealer;
 
     const galleryImgs = prod.gallery && prod.gallery.length > 0 ? prod.gallery : [prod.images.primary, prod.images.secondary];
 
-    const whatsappText = encodeURIComponent(`Namaste Sowji Garu! I want to order from Brand Mukunda:\n*Saree:* ${prod.name}\n*Price:* ₹${displayPrice}\n*Ref Image:* ${prod.images.primary}`);
+    let whatsappText = '';
+    if (isDealerMode) {
+      whatsappText = encodeURIComponent(
+        `Namaste Sowji Garu! Dealer Order (PIN Verified) - Dealer Price: ₹${prod.dealerPrice}\n` +
+        `*Saree:* ${prod.name}\n` +
+        `*Retail Customer Price:* ₹${prod.price}\n` +
+        `*Your Margin:* ₹${prod.dealerDiscount} / Saree\n` +
+        `*Ref Image:* ${prod.images.primary}`
+      );
+    } else {
+      whatsappText = encodeURIComponent(
+        `Namaste Sowji Garu! I want to order from Brand Mukunda:\n` +
+        `*Saree:* ${prod.name}\n` +
+        `*Price:* ₹${prod.price}\n` +
+        `*Ref Image:* ${prod.images.primary}`
+      );
+    }
     const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${whatsappText}`;
+
+    // Quick View Pricing Markup:
+    // Retail View: ONLY Standard Retail Price and strike-through MRP. Zero dealer hints!
+    // Dealer View: Retail Price, Your Dealer Price, and Dealer Margin Badge.
+    const pricingHtml = isDealerMode ? `
+      <div class="modal-dealer-price-card">
+        <div class="modal-price-split">
+          <div class="modal-price-block">
+            <span class="modal-lbl">Retail Customer Price</span>
+            <span class="modal-val-strike">${formatCurrency(prod.price)}</span>
+          </div>
+          <div class="modal-price-block primary">
+            <span class="modal-lbl">Your Dealer Price</span>
+            <span class="modal-val-dealer">${formatCurrency(prod.dealerPrice)}</span>
+          </div>
+        </div>
+        <div class="modal-dealer-pill-row">
+          <span class="dealer-margin-pill">Your Margin: ₹${prod.dealerDiscount} / Saree</span>
+          <span class="original-price">MRP ${formatCurrency(prod.originalPrice)}</span>
+        </div>
+      </div>
+    ` : `
+      <div class="modal-price-box">
+        <span class="modal-price">${formatCurrency(prod.price)}</span>
+        <span class="original-price">${formatCurrency(prod.originalPrice)}</span>
+        <span class="discount-percentage">${Math.round(((prod.originalPrice - prod.price) / prod.originalPrice) * 100)}% OFF</span>
+      </div>
+    `;
+
+    const addBagButtonLabel = isDealerMode
+      ? `Add to Royal Bag • ${formatCurrency(prod.dealerPrice)} (Dealer Rate)`
+      : `Add to Royal Bag • ${formatCurrency(prod.price)}`;
 
     DOM.quickViewModalContent.innerHTML = `
       <button class="modal-close-btn" id="modalCloseAction">&times;</button>
@@ -756,13 +1136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span><strong>${prod.rating}</strong> (${prod.reviewsCount} verified reviews)</span>
           </div>
 
-          <div class="modal-price-box">
-            <span class="modal-price">${formatCurrency(displayPrice)}</span>
-            <span class="original-price">${formatCurrency(prod.originalPrice)}</span>
-            <span class="dealer-margin-pill" style="margin-left: 0.5rem;">
-              ₹${prod.dealerDiscount} Reseller Margin
-            </span>
-          </div>
+          ${pricingHtml}
 
           <div class="modal-specs-box">
             <div class="spec-line">
@@ -790,12 +1164,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div class="modal-cta-row">
             <button class="btn-regal-shimmer" id="modalAddBagBtn" style="width: 100%;">
-              <span>Add to Royal Bag • ${formatCurrency(displayPrice)}</span>
+              <span>${addBagButtonLabel}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp-hero" style="width: 100%; justify-content: center;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
-              <span>Order on WhatsApp</span>
+              <span>${isDealerMode ? 'Dealer Order on WhatsApp' : 'Order on WhatsApp'}</span>
             </a>
           </div>
 
@@ -811,7 +1185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       thumb.addEventListener('click', (e) => {
         DOM.quickViewModalContent.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
         e.target.classList.add('active');
-        mainImg.src = e.target.src;
+        if (mainImg) mainImg.src = e.target.src;
       });
     });
 
@@ -824,16 +1198,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Stitching Services Drawer Trigger
-    document.getElementById('quickViewStitchingBtn')?.addEventListener('click', () => {
-      if (window.openStitchingDrawerForProduct) {
-        window.openStitchingDrawerForProduct(prod);
-      }
-    });
-
     // Modal Add Bag
     document.getElementById('modalAddBagBtn')?.addEventListener('click', () => {
-      addToCart({ ...prod, price: displayPrice }, state.quickViewSelectedOption || prod.options[0]);
+      addToCart(prod, state.quickViewSelectedOption || prod.options[0]);
       closeQuickView();
     });
 
@@ -938,6 +1305,7 @@ document.addEventListener('DOMContentLoaded', () => {
   DOM.cartTrigger?.addEventListener('click', openCartDrawer);
   DOM.drawerCloseBtn?.addEventListener('click', closeCartDrawer);
   DOM.drawerBackdrop?.addEventListener('click', closeCartDrawer);
+  DOM.cartCheckoutBtn?.addEventListener('click', handleCartCheckout);
 
   DOM.promoApplyBtn?.addEventListener('click', () => {
     const code = DOM.promoInput?.value || '';
@@ -962,26 +1330,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') {
       closeCartDrawer();
       closeQuickView();
+      closeDealerModal();
       DOM.searchOverlay?.classList.remove('active');
       DOM.mobileDrawer?.classList.remove('active');
     }
   });
 
   // App Initialization
-  initHeroCarousel();
-  initPricingModeToggle();
+  initDealerAccess();
   initOccasionTabs();
   renderBentoGrid('sarees');
   renderDualFeatureCards();
   initProductFilters();
-  renderProducts('all');
   renderFabrics();
   renderReviews();
-  updateCartUI();
   updateWishlistUI();
   initSearchOverlay();
   initScrollHeader();
   observeRevealElements();
   initWhatsAppConcierge();
 });
-

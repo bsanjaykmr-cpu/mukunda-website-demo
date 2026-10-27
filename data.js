@@ -487,8 +487,8 @@ const REVIEWS_DATA = [
     city: "Vijayawada",
     verified: true,
     rating: 5,
-    title: "Direct Dealer Pricing & Fast Dispatch",
-    comment: "I have been reselling Brand Mukunda sarees for over 2 years. Their prompt WhatsApp dispatch (+91 63097 94155), genuine dealer margins of ₹200-₹250 less, and pure crepe quality are unmatched!",
+    title: "Authentic Pure Quality & Fast Dispatch",
+    comment: "I have been ordering Brand Mukunda sarees for over 2 years. Their prompt WhatsApp dispatch (+91 63097 94155), genuine artisan handloom pricing, and pure crepe quality are unmatched!",
     avatar: "IMG-20260909-WA0005.jpg",
     productBought: "BRAND MUKUNDA — Pure Mysore Crape Designer Saree",
     date: "16 Oct 2026"
